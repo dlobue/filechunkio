@@ -2,8 +2,6 @@ FileChunkIO represents a chunk of an OS-level file containing bytes data. Requir
 
 # An example:
 >>> from filechunkio import FileChunkIO
->>>
->>>
 >>> chunk = FileChunkIO('LICENCE', offset=646, bytes=201)
 >>> chunk.read()
 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.'
@@ -12,7 +10,6 @@ FileChunkIO represents a chunk of an OS-level file containing bytes data. Requir
 >>> chunk.seek(4)
 >>> chunk.read(8)
 'SOFTWARE'
->>> chunk.tell()
 >>> chunk.seek(0)
 >>> chunk.readline()
 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n'
