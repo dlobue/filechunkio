@@ -1,13 +1,12 @@
-import io
 import os
 
 
-SEEK_SET = getattr(io, 'SEEK_SET', 0)
-SEEK_CUR = getattr(io, 'SEEK_CUR', 1)
-SEEK_END = getattr(io, 'SEEK_END', 2)
+SEEK_SET = 0
+SEEK_CUR = 1
+SEEK_END = 2
 
 
-class FileChunkIO(io.FileIO):
+class FileChunkIO(file):
     """
     A class that allows you reading only a chunk of a file.
     """
@@ -70,9 +69,10 @@ class FileChunkIO(io.FileIO):
         n = len(data)
         try:
             b[:n] = data
-        except TypeError as err:
+        except TypeError, err:
             import array
             if not isinstance(b, array.array):
                 raise err
-            b[:n] = array.array(b'b', data)
+            b[:n] = array.array('b', data)
         return n
+
