@@ -1,4 +1,6 @@
-import io
+
+from __future__ import with_statement
+
 import os
 import tempfile
 import unittest

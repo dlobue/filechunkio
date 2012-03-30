@@ -76,3 +76,69 @@ class FileChunkIO(file):
             b[:n] = array.array('b', data)
         return n
 
+
+
+
+    def readline(self, limit=-1):
+        r"""Read and return a line from the stream.
+
+        If limit is specified, at most limit bytes will be read.
+
+        The line terminator is always b'\n' for binary files; for text
+        files, the newlines argument to open can be used to select the line
+        terminator(s) recognized.
+        """
+        # For backwards compatibility, a (slowish) readline().
+        if hasattr(self, "peek"):
+            def nreadahead():
+                readahead = self.peek(1)
+                if not readahead:
+                    return 1
+                n = (readahead.find("\n") + 1) or len(readahead)
+                if limit >= 0:
+                    n = min(n, limit)
+                return n
+        else:
+            def nreadahead():
+                return 1
+        if limit is None:
+            limit = -1
+        elif not isinstance(limit, (int, long)):
+            raise TypeError("limit must be an integer")
+        res = ""
+        #res = bytearray()
+        while limit < 0 or len(res) < limit:
+            b = self.read(nreadahead())
+            if not b:
+                break
+            res += b
+            if res.endswith("\n"):
+                break
+        return str(res)
+
+    def next(self):
+        line = self.readline()
+        if not line:
+            raise StopIteration
+        return line
+
+    def readlines(self, hint=None):
+        """Return a list of lines from the stream.
+
+        hint can be specified to control the number of lines read: no more
+        lines will be read if the total size (in bytes/characters) of all
+        lines so far exceeds hint.
+        """
+        if hint is not None and not isinstance(hint, (int, long)):
+            raise TypeError("integer or None expected")
+        if hint is None or hint <= 0:
+            return list(self)
+        n = 0
+        lines = []
+        for line in self:
+            lines.append(line)
+            n += len(line)
+            if n >= hint:
+                break
+        return lines
+
