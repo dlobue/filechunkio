@@ -65,19 +65,7 @@ class FileChunkIO(file):
         """
         Same as RawIOBase.readinto().
         """
-        data = self.read(len(b))
-        n = len(data)
-        try:
-            b[:n] = data
-        except TypeError, err:
-            import array
-            if not isinstance(b, array.array):
-                raise err
-            b[:n] = array.array('b', data)
-        return n
-
-
-
+        raise NotImplemented, "This method has not been implemented. do not use!"
 
     def readline(self, limit=-1):
         r"""Read and return a line from the stream.

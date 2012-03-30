@@ -76,13 +76,6 @@ class FileChunkIOTest(unittest.TestCase):
         with FileChunkIO(self.tf, offset=1, bytes=3) as c:
             self.assertEquals(c.read(), '234')
 
-    def test_readinto(self):
-        with FileChunkIO(self.tf, offset=1, bytes=2) as c:
-            n = 3
-            b = bytearray(n.__index__())
-            c.readinto(b)
-            self.assertEquals(b, b'23\x00')
-
     def test_readline(self):
         with FileChunkIO(self.tf, offset=1, bytes=20) as c:
             lines = []
